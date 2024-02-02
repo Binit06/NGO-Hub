@@ -4,6 +4,8 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import ModalProvider from '../provider/bottomModalProvider';
+import PostHeader from '../components/CustomHeaders/PostHeader';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -44,13 +46,17 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="commenttab/commentScreen" options={{headerShown: true, animation: 'fade_from_bottom'}} />
+        <Stack.Screen name='searchtab/searchScreen' options={{animation: 'fade', headerShown: false}}/>
+        <Stack.Screen name='posttab/postScreen' options={{animation: 'fade_from_bottom', headerShown: false}}/>
+        <Stack.Screen name='profiletab/ProfileScreen' options={{headerShown: false}}/>
       </Stack>
+      <ModalProvider></ModalProvider>
     </ThemeProvider>
   );
 }

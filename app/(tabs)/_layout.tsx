@@ -3,16 +3,9 @@ import { Link, Tabs } from 'expo-router';
 import { Pressable, useColorScheme } from 'react-native';
 
 import Colors from '../../constants/Colors';
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import MainHeader from '../../components/CustomHeaders/MainHeader';
+import { View, Text } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -21,33 +14,38 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarShowLabel: true,
+        tabBarStyle: {
+          height: '7%',
+          paddingBottom: 5,
+          borderTopRightRadius: 25,
+          borderTopLeftRadius: 25,
+          backgroundColor: 'rgba(255,255,255,1)'
+        }
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          title: 'Feed',
+          tabBarIcon: ({ focused }) => <MaterialIcons name="home" size={28} color={focused ? "#635bff" : "#bac3cc"}/>,
+          header: ({route}) => <MainHeader title={route.name}/>,
         }}
       />
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Add Post',
+          href: {pathname: '/posttab/postScreen'},
+          tabBarIcon: ({ focused }) => <AntDesign name="plussquare" size={24} color={focused ? "#635bff" : "#bac3cc"}/>,
+          header: ({route}) => <MainHeader title={route.name}/>
+        }}
+      />
+      <Tabs.Screen
+        name="community"
+        options={{
+          title: 'Community',
+          tabBarIcon: ({ focused }) => <MaterialIcons name="people-alt" size={24} color={focused ? "#635bff" : "#bac3cc"}/>,
+          header: ({route}) => <MainHeader title={route.name}/>
         }}
       />
     </Tabs>
