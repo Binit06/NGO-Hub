@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import currentUser from '../../../../datasets/currentUser';
+import { Link } from 'expo-router';
 
 interface PromotionHeaderProps {
     imgURL: string,
@@ -61,7 +62,8 @@ const PromotionHeader : React.FC<PromotionHeaderProps> = ({
   };
   
   return (
-    <View style={styles.container}>
+    <Link href={{pathname: '/profiletab/ProfileScreen', params: {user_id: userId}}} asChild>
+    <Pressable style={styles.container}>
       <View style={styles.profileHeader}>
         {imgURL ? (
           <Image source={{uri: imgURL}} style={styles.imageContainer}/>
@@ -80,7 +82,8 @@ const PromotionHeader : React.FC<PromotionHeaderProps> = ({
             <Text style={styles.FollowText}>+ Follow</Text>
           </TouchableOpacity>
         )}
-    </View>
+    </Pressable>
+    </Link>
   )
 }
 

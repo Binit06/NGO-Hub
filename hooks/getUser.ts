@@ -10,7 +10,7 @@ export interface UserData {
   user_following: string[];
   user_follower_count: number;
   user_followers: { user_id: string }[];
-  connect_requests: string[];
+  connect_requests: {request: string, user_id: string}[];
   user_connections: { user_id: string }[];
 }
 

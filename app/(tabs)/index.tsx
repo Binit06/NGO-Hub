@@ -20,6 +20,7 @@ export interface Post {
   post_type: string;
   liked_users: { user_id: string }[];
   likes: number;
+  post_title: string;
   timestamp: { _seconds: number; _nanoseconds: number };
 }
 
@@ -110,6 +111,7 @@ export default function TabOneScreen() {
                 userId={item.user_id}
                 key={item.post_id}
                 type={item.post_type}
+                title={item.post_title}
                 showText={false}
               />
             )}

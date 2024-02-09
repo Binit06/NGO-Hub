@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Pressable }
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import currentUser from '../../datasets/currentUser';
 
 interface MainHeaderProps {
     title: string;
@@ -13,7 +14,7 @@ const MainHeader: React.FC<MainHeaderProps> = ({ title }) => {
     return (
         <SafeAreaView>
             <View style={[styles.headerContainer]}>
-                <Link href={'/profiletab/ProfileScreen'} asChild>
+                <Link href={{pathname: '/profiletab/ProfileScreen', params: {user_id: currentUser}}} asChild>
                     <Pressable>
                         <Image source={{ uri: "https://links.papareact.com/wru" }} style={{height: 20, width: 20, backgroundColor: 'rgb(209, 213, 219)', padding: 20, borderRadius: 20}}/>
                     </Pressable>

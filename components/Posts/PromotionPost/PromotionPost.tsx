@@ -13,7 +13,6 @@ import { BarChart, LineChart } from "react-native-chart-kit";
 import FUNDSDATA from "../../../datasets/FundsData";
 import useDetailsModelStore from "../../../hooks/useDetailsModel";
 import Chart from "../../Charts/chart";
-import LinearGradient from 'react-native-linear-gradient';
 import getUser, { UserData } from "../../../hooks/getUser";
 import currentUser from "../../../datasets/currentUser";
 
@@ -23,6 +22,7 @@ interface PromotionPostProps {
     imgURL: string[],
     Post: string,
     showText: boolean,
+    title: string,
     type: string,
 }
 
@@ -32,6 +32,7 @@ const PromotionPost: React.FC<PromotionPostProps> = ({
     imgURL,
     Post,
     showText,
+    title,
     type
 }) => {
 
@@ -135,7 +136,7 @@ const PromotionPost: React.FC<PromotionPostProps> = ({
     console.log("Number of Total Images : ", totalImages)
     return (
         <View style={{flex: 1, justifyContent: 'space-between', backgroundColor: 'rgba(0,0,0,0.05)', paddingHorizontal: 0}}>
-            <View style={{flex: 1, paddingHorizontal: 7, borderRadius: type === 'fundraiser' ? 7 : 0, overflow: 'hidden', backgroundColor: 'white', paddingTop: 7, marginTop: 5, paddingBottom: 7, borderWidth: 5, borderColor: 'white'}}>
+            <View style={{flex: 1, paddingHorizontal: 7, overflow: 'hidden', backgroundColor: 'white', paddingTop: 7, marginTop: 5, paddingBottom: 7, borderWidth: 5, borderColor: 'white'}}>
                 {headerComponent}
                 {totalImages !== 0 ? (
                     <ScrollView
@@ -157,7 +158,7 @@ const PromotionPost: React.FC<PromotionPostProps> = ({
                         {imgURL.map((url, index) => (
                             <Pressable key={index} style={{ position: 'relative', width: `${imageWidthPercentage}%`, height: '100%', justifyContent: 'center' }} onPress={() => setImageSize(!imageSize)}>
                                 {url.length !== 0 ? (
-                                    <View style={{ width: '100%', height: '100%', flexDirection: 'row', justifyContent: 'center', borderRadius: 15, overflow: 'hidden' }}>
+                                    <View style={{ width: '100%', height: '100%', flexDirection: 'row', justifyContent: 'center',borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: type === 'fundraiser' ? 0 : 20, borderBottomRightRadius: type === 'fundraiser' ? 0 : 20, overflow: 'hidden' }}>
                                         <Image source={{ uri: url.trim() || 'https://www.happyfacesvadodara.com/wp-content/uploads/2021/04/1.jpg' }} style={{ width: '100%', height: '100%', resizeMode: imageSize ? 'cover' : 'contain' }} />
                                         <Text style={{ position: 'absolute', top: 5, right: 10, color: 'white', zIndex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5 }}>
                                             {index + 1} / {totalImages}
@@ -171,18 +172,29 @@ const PromotionPost: React.FC<PromotionPostProps> = ({
                     <View></View>
                 )}
 
-                <View style={{ paddingHorizontal: 5, marginTop: 5 }}>
-                    <Text numberOfLines={showFullText ? undefined : 4} onPress={() => setShowFullText(!showFullText)} disabled={showText}>
-                        {renderBlueHashtags(Post)}
-                    </Text>
-                    {Post.length > 50 && (
-                        <View>
-                            <TouchableOpacity onPress={() => setShowFullText(!showFullText)}>
-                                <Text style={{ color: 'blue', fontWeight: 'bold' }}>
-                                    {showFullText ? '' : 'Show More'}
-                                </Text>
-                            </TouchableOpacity>
+                <View style={{width: '100%', flexDirection: 'row', paddingHorizontal: type === 'fundraiser' ? 5: 0}}>
+                    <View style={{ paddingHorizontal: 5, marginTop: 5, flex: 1 }}>
+                        <Text numberOfLines={showFullText ? undefined : 4} onPress={() => setShowFullText(!showFullText)} disabled={showText}>
+                            {renderBlueHashtags(Post)}
+                        </Text>
+                        {Post.length > 50 && (
+                            <View>
+                                <TouchableOpacity onPress={() => setShowFullText(!showFullText)}>
+                                    <Text style={{ color: 'blue', fontWeight: 'bold' }}>
+                                        {showFullText ? '' : 'Show More'}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    </View>
+                    {type === 'fundraiser' ? (
+                        <View style={{flex: 1, paddingVertical: 20}}>
+                            <View style={{width: '100%', height: 100, backgroundColor: 'rgba(0,133,244, 0.7)'}}>
+
+                            </View>
                         </View>
+                    ): (
+                        null
                     )}
                 </View>
                 {type === "fundraiser" ? (
