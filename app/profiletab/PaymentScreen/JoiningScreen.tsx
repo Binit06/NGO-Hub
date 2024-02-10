@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Pressable, Button } from 'react-native'
+import { View, Text, TextInput, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import currentUser from '../../../datasets/currentUser'
 import { router } from 'expo-router'

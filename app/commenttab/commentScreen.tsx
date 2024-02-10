@@ -50,6 +50,7 @@ const CommentScreen = () => {
           Post={postContent.toString()}
           showText={true}
           type={PostType.toString()}
+          title=''
         />
       </ScrollView>
       <View style={{ position: 'fixed', bottom: 0, width: '100%', height: 55, backgroundColor: 'white', paddingVertical: 0, paddingHorizontal: 5, flexDirection: 'column', alignItems: 'center', borderTopColor: '#DCDCDC', borderTopWidth: 3 }}>

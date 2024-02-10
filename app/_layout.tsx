@@ -56,6 +56,7 @@ function RootLayoutNav() {
         <Stack.Screen name='posttab/postScreen' options={{animation: 'fade_from_bottom', header: ({route}) => <PostHeader/>}}/>
         <Stack.Screen name='profiletab/ProfileScreen' options={{headerShown: false}}/>
         <Stack.Screen name='notificationtab/NotificationScreen' options={{headerShown: true, headerTitle: "Notifications"}}/>
+        <Stack.Screen name='communitychat/CommunityChat' options={{headerShown: true, headerTitle: 'Community Chat'}}/>
       </Stack>
       <ModalProvider></ModalProvider>
     </ThemeProvider>
