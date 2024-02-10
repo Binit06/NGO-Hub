@@ -20,15 +20,15 @@ const PostScreen = () => {
   const types = [
     {
       title: 'Fundraiser',
-      imgURL: 'https://cdn-icons-png.flaticon.com/512/5768/5768896.png'
+      imgURL: '../../assets/images/Fundraiser.png'
     },
     {
       title: 'Promotion',
-      imgURL: 'https://cdn-icons-png.flaticon.com/512/1077/1077221.png'
+      imgURL: '../../assets/images/Promotion.png'
     },
     {
       title: 'Advertisement',
-      imgURL: 'https://cdn-icons-png.flaticon.com/512/1466/1466342.png'
+      imgURL: '../../assets/images/Advertisement.png'
     }
   ]
   const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -82,46 +82,33 @@ const PostScreen = () => {
   return (
     <>
     <KeyboardAvoidingView>
-      <View style={{marginTop: 5}}>
-        <PostHeader />
-      </View>
       <ScrollView contentContainerStyle={{paddingBottom: 140}}>
-      <View style={{width: '100%', flexDirection: 'column', gap: 5, justifyContent: 'center', alignItems: 'center', marginTop: 15, paddingHorizontal: 15}}>
-      <View style={{backgroundColor: 'white', borderRadius: 5, width: '100%', paddingVertical: 10}}>
-        <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10}}>
-          <Text style={{fontSize: 25, fontWeight: '700'}}>ADD POST</Text>
-        </View>
-        <View style={{paddingBottom: 0, paddingHorizontal: 10, paddingTop: 5}}>
-          <TextInput placeholder='Write your thoughts here' multiline maxLength={1000} onChangeText={(e) => {setPostContent(e)}} onKeyPress={handleKeyPress}/>
-        </View>
-      </View>
+      <View style={{width: '100%', flexDirection: 'column', gap: 15, justifyContent: 'center', alignItems: 'center', marginTop: 15, paddingHorizontal: 15}}>
       <View style={{borderRadius: 10, width: '100%', paddingVertical: 7, flexDirection: 'column', gap: 7}}>
         {/* <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5}}>
           <Text style={{fontSize: 15, fontWeight: '600'}}>POST TYPE</Text>
         </View> */}
-        <View style={{flexDirection: 'row', gap: 10, paddingHorizontal: 0, marginTop: 0}}>
+        <View style={{flexDirection: 'row', gap: 3, paddingHorizontal: 0, marginTop: 0}}>
           {types.map((type) => (
             <PostType {...type} key={type.title} isSelected={type.title === selectedType} onPress={() => handleTypeSelection(type.title)}/>
           ))}
         </View>
       </View>
-      <View style={{backgroundColor: 'white', borderRadius: 5, width: '100%', paddingVertical: 10}}>
-        <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10}}>
-          <Text style={{fontSize: 25, fontWeight: '700'}}>UPLOAD IMAGES</Text>
+      <View style={{width: '100%', paddingVertical: 10, flexDirection: 'column', gap: 10}}>
+        <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, flex: 1, justifyContent: 'center'}}>
+          <Text style={{fontSize: 22, fontWeight: '700', textAlign: 'center', letterSpacing: 3}}>Post</Text>
         </View>
-        <View style={{width: '100%', paddingVertical: 0, paddingHorizontal: 9}}>
-          <View style={{flexDirection: 'row', gap: 5, paddingHorizontal: 0, marginTop: 10, width: '100%', borderStyle: 'dashed', borderColor: 'black', borderWidth: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 5, paddingVertical: 85}}>
-            <Text style={{color: 'rgba(0,0,0,0.7)', fontSize: 20}}>+ Add Images</Text>
-          </View>
+        <View style={{paddingBottom: 0, paddingHorizontal: 10, paddingTop: 5, backgroundColor: 'white', borderRadius: 25, borderWidth: 1, borderStyle: 'dashed', borderColor: '#A3B4C1'}}>
+          <TextInput placeholder='Write about your post' multiline maxLength={1000} onChangeText={(e) => {setPostContent(e)}} onKeyPress={handleKeyPress} style={{paddingBottom: 170, fontSize: 17, paddingTop: 10, paddingHorizontal: 10}}/>
         </View>
       </View>
-      <View style={{backgroundColor: 'white', borderRadius: 5, width: '100%', paddingVertical: 10}}>
-        <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10}}>
-          <Text style={{fontSize: 25, fontWeight: '700'}}>UPLOAD VIDEOS</Text>
+      <View style={{width: '100%', paddingVertical: 10, flexDirection: 'column', gap: 10}}>
+        <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, justifyContent: 'center'}}>
+          <Text style={{fontSize: 22, fontWeight: '700', letterSpacing: 3}}>Upload Images</Text>
         </View>
-        <View style={{width: '100%', paddingVertical: 0, paddingHorizontal: 9}}>
-          <View style={{flexDirection: 'row', gap: 5, paddingHorizontal: 0, marginTop: 10, width: '100%', borderStyle: 'dashed', borderColor: 'black', borderWidth: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 5, paddingVertical: 85}}>
-            <Text style={{color: 'rgba(0,0,0,0.7)', fontSize: 20}}>+ Add Videos</Text>
+        <View style={{width: '100%', paddingVertical: 0, borderRadius: 5}}>
+          <View style={{flexDirection: 'row', gap: 5, paddingHorizontal: 0, marginTop: 10, width: '100%', borderStyle: 'dashed', borderColor: '#A3B4C1', borderWidth: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 25, paddingVertical: 85, backgroundColor: 'white'}}>
+            <Text style={{color: 'rgba(0,0,0,0.7)', fontSize: 20}}>+ Add Images</Text>
           </View>
         </View>
       </View>

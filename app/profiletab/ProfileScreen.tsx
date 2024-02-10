@@ -6,7 +6,7 @@ import { Post } from '../(tabs)'
 import currentUser from '../../datasets/currentUser'
 import { Users } from '../../types'
 import getUser, { UserData } from '../../hooks/getUser'
-import { useLocalSearchParams } from 'expo-router'
+import { Link, useLocalSearchParams } from 'expo-router'
 import { AntDesign, Feather, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 
 const ProfileScreen = () => {
@@ -68,8 +68,8 @@ const ProfileScreen = () => {
         const userData = await getUser(user_id.toString());
         setUser(userData);
         
-        const isConnected = userData?.user_connections.some(connection => connection.user_id === user_id) || false;
-        setIsConnected(isConnected);
+        const accepted = userData?.user_connections.some(connection => connection.user_id === user_id) || false;
+        setAccepted(accepted)
   
         const pendingRequest = userData?.connect_requests.find(request => request.user_id === currentUser && request.request === "received");
         console.log(userData?.connect_requests)
@@ -87,7 +87,41 @@ const ProfileScreen = () => {
   
     handleUser();
   }, [user_id]);
-  console.log(currentUser)
+
+  const [accept, setAccepted] = useState(user?.user_connections.some((user) => user.user_id === currentUser))
+
+  const handleAccept = async () => {
+    try {
+      setAccepted(true)
+      const response = await fetch(`https://ngo-api.vercel.app/api/connect/accept/${currentUser}/${user_id}`)
+      if(!response.ok){
+        setAccepted(false)
+        return console.log("Something went wrong")
+      }
+      setAccepted(true)
+      return console.log("Acceptance Succeded")
+    } catch (e) {
+      setAccepted(false)
+      return console.log("An Unkown Error Occured")
+    }
+  }
+
+  const handleDisConnect = async () => {
+    try {
+      const response = await fetch(`https://ngo-api.vercel.app/api/disconnect/${user_id}/${currentUser}`, {
+        method: 'GET'
+      })
+
+      if(!response.ok){
+        return console.log("Disconnection Failed")
+      }
+
+      return console.log("Disconnected")
+    } catch (e) {
+      return console.log("Disconnect Failed")
+    }
+  }
+  console.log(userData?.user_connections.some((user) => user.user_id === currentUser))
   return (
     <View style={{backgroundColor: 'black'}}>
       <View style={{width: '100%', height: 170, borderColor: 'black', borderWidth: 1}}>
@@ -108,19 +142,38 @@ const ProfileScreen = () => {
       </View>
       {currentUser !== user_id ? (
         <View style={{width: '100%', flexDirection: 'row', paddingLeft: 20, paddingRight: 50, gap: 10, marginVertical: 10}}>
-          <Pressable style={{flex: 1, paddingHorizontal: 0, paddingVertical: 10, borderColor: 'rgba(0,0,0, 0.95)', borderWidth: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(100,100,100,0.4)'}} onPress={handleConnect}>
-          {userData?.connect_requests.find(request => request.user_id === currentUser && request.request === "sent") ? (
-            <Text style={{color: 'rgba(255,255,255,0.8)', fontWeight: 'bold'}}>Accept</Text>
+          {!user?.user_connections.some((user) => user.user_id === currentUser) ? userData?.connect_requests.find(request => request.user_id === currentUser && request.request === "sent") ? (
+              <Pressable style={{flex: 1, paddingHorizontal: 0, paddingVertical: 10, borderColor: 'rgba(0,0,0, 0.95)', borderWidth: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(100,100,100,0.4)'}} onPress={handleAccept}>
+              <Text style={{color: 'rgba(255,255,255,0.8)', fontWeight: 'bold'}}>{accept? "Connected": "Accept"}</Text>
+              </Pressable>
           ):(
-            <Text style={{color: 'rgba(255,255,255,0.8)', fontWeight: 'bold'}}> {isConnected === null ? "Request Sent" : isConnected === true ? "Connected" : "+ Connect"}</Text>
+            <Pressable style={{flex: 1, paddingHorizontal: 0, paddingVertical: 10, borderColor: 'rgba(0,0,0, 0.95)', borderWidth: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(100,100,100,0.4)'}} onPress={handleConnect}>
+              <Text style={{color: 'rgba(255,255,255,0.8)', fontWeight: 'bold'}}> {isConnected === null ? "Request Sent" : isConnected === true ? "Connected" : "+ Connect"}</Text>
+            </Pressable>
+          ): (
+            <Pressable style={{flex: 1, paddingHorizontal: 0, paddingVertical: 10, borderColor: 'rgba(0,0,0, 0.95)', borderWidth: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(100,100,100,0.4)'}} onPress={handleDisConnect}>
+              <Text style={{color: 'rgba(255,255,255,0.8)', fontWeight: 'bold'}}>Connected</Text>
+            </Pressable>
           )}
-          </Pressable>
           <View style={{flex: 1, paddingHorizontal: 15, paddingVertical: 10, borderColor: 'rgba(0,0,0, 0.95)', borderWidth: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(100,100,100,0.4)'}}>
             <Text style={{color: 'rgba(255,255,255,0.8)', fontWeight: 'bold'}}> Join Community</Text>
           </View>
         </View>
       ): (
-        null
+        <View style={{width: '100%', flexDirection: 'row', paddingLeft: 20, paddingRight: 20, gap: 10, marginVertical: 10}}>
+          <Link href={'/profiletab/PaymentScreen/JoiningScreen'} asChild>
+            <Pressable style={{flex: 1, paddingHorizontal: 0, paddingVertical: 10, borderColor: 'rgba(0,0,0, 0.95)', borderWidth: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(100,100,100,0.4)'}}>
+              <Text style={{color: 'rgba(255,255,255,0.7)', fontWeight: 'bold'}}>Join a Community</Text>
+            </Pressable>
+          </Link>
+          {user?.user_type !== "person" ? (
+            <Pressable style={{flex: 1, paddingHorizontal: 0, paddingVertical: 10, borderColor: 'rgba(0,0,0, 0.95)', borderWidth: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(100,100,100,0.4)'}}>
+              <Text>Create Community</Text>
+            </Pressable>
+          ) : (
+            null
+          )}
+        </View>
       )}
       <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
         <View style={{flexDirection: 'row', gap: 7, alignItems: 'center', justifyContent: 'flex-start', paddingHorizontal: 10}}>

@@ -53,8 +53,9 @@ function RootLayoutNav() {
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         <Stack.Screen name="commenttab/commentScreen" options={{headerShown: true, animation: 'fade_from_bottom'}} />
         <Stack.Screen name='searchtab/searchScreen' options={{animation: 'fade', headerShown: false}}/>
-        <Stack.Screen name='posttab/postScreen' options={{animation: 'fade_from_bottom', headerShown: false}}/>
+        <Stack.Screen name='posttab/postScreen' options={{animation: 'fade_from_bottom', header: ({route}) => <PostHeader/>}}/>
         <Stack.Screen name='profiletab/ProfileScreen' options={{headerShown: false}}/>
+        <Stack.Screen name='notificationtab/NotificationScreen' options={{headerShown: true, headerTitle: "Notifications"}}/>
       </Stack>
       <ModalProvider></ModalProvider>
     </ThemeProvider>

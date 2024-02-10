@@ -87,6 +87,7 @@ const PromotionPost: React.FC<PromotionPostProps> = ({
               userName={userDATA.user_name || ""}
               userId={userDATA.user_id || ""}
               follow={userDATA.user_followers.some((user) => user.user_id === currentUser)}
+              user={userDATA || []}
             />
           );
         }
@@ -135,9 +136,8 @@ const PromotionPost: React.FC<PromotionPostProps> = ({
     }
     console.log("Number of Total Images : ", totalImages)
     return (
-        <View style={{flex: 1, justifyContent: 'space-between', backgroundColor: 'rgba(0,0,0,0.05)', paddingHorizontal: 0}}>
-            <View style={{flex: 1, paddingHorizontal: 7, overflow: 'hidden', backgroundColor: 'white', paddingTop: 7, marginTop: 5, paddingBottom: 7, borderWidth: 5, borderColor: 'white'}}>
-                {headerComponent}
+        <View style={{flex: 1, justifyContent: 'space-between', paddingHorizontal: 0}}>
+            <View style={{flex: 1, paddingHorizontal: 7, overflow: 'hidden', paddingTop: 7, marginTop: 5, paddingBottom: 7}}>
                 {totalImages !== 0 ? (
                     <ScrollView
                         horizontal
@@ -158,7 +158,7 @@ const PromotionPost: React.FC<PromotionPostProps> = ({
                         {imgURL.map((url, index) => (
                             <Pressable key={index} style={{ position: 'relative', width: `${imageWidthPercentage}%`, height: '100%', justifyContent: 'center' }} onPress={() => setImageSize(!imageSize)}>
                                 {url.length !== 0 ? (
-                                    <View style={{ width: '100%', height: '100%', flexDirection: 'row', justifyContent: 'center',borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: type === 'fundraiser' ? 0 : 20, borderBottomRightRadius: type === 'fundraiser' ? 0 : 20, overflow: 'hidden' }}>
+                                    <View style={{ width: '100%', height: '100%', flexDirection: 'row', justifyContent: 'center',borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden' }}>
                                         <Image source={{ uri: url.trim() || 'https://www.happyfacesvadodara.com/wp-content/uploads/2021/04/1.jpg' }} style={{ width: '100%', height: '100%', resizeMode: imageSize ? 'cover' : 'contain' }} />
                                         <Text style={{ position: 'absolute', top: 5, right: 10, color: 'white', zIndex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5 }}>
                                             {index + 1} / {totalImages}
@@ -171,8 +171,10 @@ const PromotionPost: React.FC<PromotionPostProps> = ({
                 ) : (
                     <View></View>
                 )}
-
-                <View style={{width: '100%', flexDirection: 'row', paddingHorizontal: type === 'fundraiser' ? 5: 0}}>
+                <View style={{paddingVertical: 10}}>
+                {headerComponent}
+                </View>
+                <View style={{width: '100%', flexDirection: 'row', paddingHorizontal: 5}}>
                     <View style={{ paddingHorizontal: 5, marginTop: 5, flex: 1 }}>
                         <Text numberOfLines={showFullText ? undefined : 4} onPress={() => setShowFullText(!showFullText)} disabled={showText}>
                             {renderBlueHashtags(Post)}
@@ -203,37 +205,35 @@ const PromotionPost: React.FC<PromotionPostProps> = ({
                     <>
                     <View style={{ paddingTop: 10, paddingHorizontal: 7 }}>
                         <View style={{ flexDirection: 'row', gap: 7 }}>
-                            <View style={{ backgroundColor: 'rgba(0,0,0,0.05)', flexDirection: 'row', alignItems: 'center', gap: 7, paddingHorizontal: 15, paddingVertical: 0, borderRadius: 15, flex: 1}}>
+                            <View style={{ backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', gap: 7, padding: 7, borderRadius: 15}}>
                                 {!liked ? (
                                     <TouchableOpacity onPress={handleLike} style={{flexDirection: 'row', gap: 7, alignItems: 'center'}}>
-                                        <AntDesign name='like2' size={15} color={'black'} />
-                                        <Text>Like</Text>
+                                        <AntDesign name="hearto" size={24} color="black" />
                                     </TouchableOpacity>
                                 ) : (
                                     <TouchableOpacity onPress={handleDislike} style={{flexDirection: 'row', gap: 7, alignItems: 'center'}}>
-                                        <AntDesign name='like1' size={15} color={'black'} />
-                                        <Text>Liked</Text>
+                                        <AntDesign name="heart" size={24} color="red" />
                                     </TouchableOpacity>
                                 )}
                             </View>
-                            <View style={{ backgroundColor: 'rgba(0,0,0,0.05)', flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 15, flex: 1 }}>
-                                <SimpleLineIcons name='share' size={15} color={'black'} />
-                                <Text>Share</Text>
+                            <View style={{ backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', gap: 10, padding: 7, borderRadius: 15}}>
+                                <FontAwesome5 name="telegram-plane" size={24} color="black" />
                             </View>
-                            <View style={{ backgroundColor: 'rgba(0,0,0,0.05)', flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 15, position: 'relative', overflow: 'hidden', flex: 1}}>
-                                <View style={{position: 'absolute', left: 0, backgroundColor: 'rgba(0,255,0,0.2)', width: '50%', zIndex: 5, height: '200%'}}></View>
-                                <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15, paddingVertical: 7, width: '100%', height: '100%', gap: 7}}>
-                                    <FontAwesome5 name='donate' size={15} color={'black'} />
-                                    <Text>Donate</Text>
+                            <View style={{ backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 15}}>
+                                <View style={{flexDirection: 'row', alignItems: 'center', padding: 7, height: '100%', gap: 7}}>
+                                    <FontAwesome5 name="hand-holding-heart" size={24} color="black" />
                                 </View>
                             </View>
+                            <View style={{backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: 30, flex: 1, justifyContent: 'center', paddingHorizontal: 20}}>
+                                <Text style={{fontSize: 15}}>Enter a Comment</Text>
+                            </View>
+                            {/* {!showText ? (<CommentsPreview postId={postId} userId={userId} imgUrl={imgURL} postContent={Post} postType={type}/>) : (<FullComment postId={postId} />)} */}
                             {/* <View style={{ backgroundColor: 'rgba(0,0,0,0.05)', flexDirection: 'row', alignItems: 'center', gap: 7, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 15, flex: 1}}>
                                 <FontAwesome5 name='bookmark' size={15} color={'black'} />
                                 <Text>Save</Text>
                             </View> */}
                         </View>
                     </View>
-                    {!showText ? (<CommentsPreview postId={postId} userId={userId} imgUrl={imgURL} postContent={Post} postType={type}/>) : (<FullComment postId={postId} />)}
                     </>
                 )}
             </View>

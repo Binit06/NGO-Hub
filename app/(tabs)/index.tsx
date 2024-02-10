@@ -10,6 +10,7 @@ import { View } from '../../components/Themed';
 import PromotionPost from '../../components/Posts/PromotionPost/PromotionPost';
 import { AntDesign } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import currentUser from '../../datasets/currentUser';
 
 export interface Post {
   post_content: string;
@@ -64,8 +65,10 @@ export default function TabOneScreen() {
         timestamp: post.timestamp || { _seconds: 0, _nanoseconds: 0 },
       }));
 
-      if(formattedPosts.length !== 0){
-        setPostData((prevData) => [...prevData, ...formattedPosts]);
+      const filteredPosts = formattedPosts.filter((user) => user.user_id !== currentUser)
+
+      if(filteredPosts.length !== 0){
+        setPostData((prevData) => [...prevData, ...filteredPosts]);
       } else {
         return 
       }
@@ -99,7 +102,7 @@ export default function TabOneScreen() {
   return (
     <>
       {isLoading === false ? (
-        <View style={styles.container}>
+        <View style={{}}>
           <FlatList
             data={postData}
             keyExtractor={(item) => item.post_id}
@@ -123,6 +126,7 @@ export default function TabOneScreen() {
                 onRefresh={handleRefresh}
               />
             }
+            style={{backgroundColor: 'rgba(0,0,0,0)'}}
           ListFooterComponent={
             contentLoading ? (
             <View
@@ -143,7 +147,6 @@ export default function TabOneScreen() {
               bottom: 10,
               right: 10,
               borderRadius: 40,
-              backgroundColor: 'white',
             }}
           >
             <Link href={'/posttab/postScreen'} asChild>

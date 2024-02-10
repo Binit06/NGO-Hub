@@ -2,19 +2,22 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Pressable } from 'reac
 import React, { useState } from 'react'
 import currentUser from '../../../../datasets/currentUser';
 import { Link } from 'expo-router';
+import { UserData } from '../../../../hooks/getUser';
 
 interface PromotionHeaderProps {
     imgURL: string,
     userName: string,
     userId: string,
-    follow: boolean;
+    follow: boolean,
+    user: UserData,
 }
 
 const PromotionHeader : React.FC<PromotionHeaderProps> = ({
     imgURL,
     userName,
     userId,
-    follow
+    follow,
+    user
 }) => {
 
   const [isfollowing, setIsFollowing] = useState(follow)
@@ -70,7 +73,10 @@ const PromotionHeader : React.FC<PromotionHeaderProps> = ({
         ): (
           <Image source={{uri: "https://links.papareact.com/gn7"}} style={styles.imageContainer}/>
         )}
-        <Text>{userName}</Text>
+        <View style={{flexDirection: 'column', gap: 5}}>
+          <Text style={{fontSize: 20, fontWeight: '800'}}>{user.user_name}</Text>
+          <Text>{user.user_location}</Text>
+        </View>
       </View>
       
         {isfollowing ? (
@@ -98,16 +104,15 @@ const styles = StyleSheet.create({
     },
     profileHeader: {
         flexDirection: 'row',
-        gap: 10,
-        alignItems: 'center'
+        gap: 10
     },
     imageContainer: {
-        height: 28,
-        width: 28,
-        borderRadius: 28,
-        backgroundColor: 'white',
-        padding: 10,
-        resizeMode: 'contain'
+      height: 40,
+      width: 40,
+      borderRadius: 20, // Half of the smaller dimension
+      overflow: 'hidden',
+      backgroundColor: 'white',
+      resizeMode: 'cover' // Use 'cover' to ensure the image fills the entire container
     },
     FollowText: {
         color: '#635bff',

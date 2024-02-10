@@ -27,9 +27,11 @@ const MainHeader: React.FC<MainHeaderProps> = ({ title }) => {
                     </View>
                 </Pressable>
                 </Link>
-                <View style={[styles.Notification]}>
+                <Link href={'/notificationtab/NotificationScreen'} asChild>
+                <Pressable style={[styles.Notification]}>
                     <FontAwesome name='bell-o' size={20} color={"#000000"}/>
-                </View>
+                </Pressable>
+                </Link>
             </View>
         </SafeAreaView>
     )

@@ -3,7 +3,7 @@ import { Link, Tabs } from 'expo-router';
 import { Pressable, useColorScheme } from 'react-native';
 
 import Colors from '../../constants/Colors';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import MainHeader from '../../components/CustomHeaders/MainHeader';
 import { View, Text } from 'react-native';
 
@@ -32,19 +32,22 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Add Post',
-          href: {pathname: '/posttab/postScreen'},
-          tabBarIcon: ({ focused }) => <AntDesign name="plussquare" size={24} color={focused ? "#635bff" : "#bac3cc"}/>,
-          header: ({route}) => <MainHeader title={route.name}/>
-        }}
-      />
-      <Tabs.Screen
         name="community"
         options={{
           title: 'Community',
           tabBarIcon: ({ focused }) => <MaterialIcons name="people-alt" size={24} color={focused ? "#635bff" : "#bac3cc"}/>,
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            color: "#0085F4"
+          }
+        }}
+      />
+      <Tabs.Screen
+        name="two"
+        options={{
+          title: 'Settings',
+          href: {pathname: '/'},
+          tabBarIcon: ({ focused }) => <Ionicons name="settings" size={24} color={focused ? "#635bff" : "#bac3cc"}/>,
           header: ({route}) => <MainHeader title={route.name}/>
         }}
       />

@@ -16,6 +16,7 @@ const PostType: React.FC<PostTypeProps> = ({ title, imgURL, isSelected, onPress 
   };
 
   return (
+    <View style={{flex: 1, paddingHorizontal: 10}}>
     <Pressable
       onPress={onPress}
       style={{
@@ -25,17 +26,26 @@ const PostType: React.FC<PostTypeProps> = ({ title, imgURL, isSelected, onPress 
         borderRadius: 15,
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: isSelected ? 'blue' : 'rgba(0, 0, 0, 0.50)', // Change color when pressed
+        borderColor: isSelected ? 'blue' : '#CDD5D7', // Change color when pressed
         paddingHorizontal: 10,
         paddingVertical: 10,
         backgroundColor: isSelected ? 'rgba(0,0,255,0.08)' : 'white'
       }}
     >
       <View>
-        <Image source={{ uri: imgURL }} style={{ width: 70, height: 70 }} />
+        {title === "Fundraiser" ? (
+          <Image source={require('../../assets/images/Fundraiser.png')} style={{ width: 70, height: 70 }} />
+        ): title === "Promotion" ? (
+          <Image source={require('../../assets/images/Promotion.png')} style={{ width: 70, height: 70 }} />
+        ): title === "Advertisement" ? (
+          <Image source={require('../../assets/images/Advertisement.png')} style={{ width: 70, height: 70 }} />
+        ): (
+          null
+        )}
       </View>
-      <Text style={{fontSize: 13, marginTop: 5}}>{title}</Text>
     </Pressable>
+    <Text style={{fontSize: 14, marginTop: 5, textAlign: 'center', fontWeight: 'bold'}}>{title}</Text>
+    </View>
   );
 };
 

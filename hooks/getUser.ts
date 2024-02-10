@@ -12,6 +12,8 @@ export interface UserData {
   user_followers: { user_id: string }[];
   connect_requests: {request: string, user_id: string}[];
   user_connections: { user_id: string }[];
+  user_type: string;
+  user_location: string;
 }
 
 const getUser = async (userId: string): Promise<UserData | null> => {
